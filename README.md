@@ -1,2 +1,2 @@
-# stixtalker
-Conversational language for your stix repository
+# Stix Talker
+Conversational query language for your stix needs!

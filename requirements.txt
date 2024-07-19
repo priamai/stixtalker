@@ -1,0 +1,5 @@
+git+https://github.com/priamai/firepit.git@develop
+psycopg2-binary
+vanna[chromadb,openai,postgres]
+pysqlite3-binary
+stix2
