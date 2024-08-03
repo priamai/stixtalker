@@ -38,6 +38,7 @@ class SqliteStix(unittest.TestCase):
 
             store.delete()
 
+
     def test_vanna(self):
         vn = MyVanna(config={'api_key': os.getenv("OPEN_AI"), 'model': 'gpt-4o'})
 
@@ -66,8 +67,19 @@ class SqliteStix(unittest.TestCase):
         result = vn.run_sql(sql)
 
         print(result)
-        store.delete()
+        #store.delete()
 
+    def test_info_schema(self):
+        # The information schema query may need some tweaking depending on your database. This is a good starting point.
+        vn = MyVanna(config={'api_key': os.getenv("OPEN_AI"), 'model': 'gpt-4o'})
+
+        vn.connect_to_sqlite("stix.sqlite")
+
+        df_info = vn.run_sql("SELECT * FROM sqlite_master")
+
+        for idx,row in df_info.iterrows():
+            if row['type']=="table":
+                if row['sql']: vn.train(ddl=row['sql'])
 
 if __name__ == '__main__':
     unittest.main()
