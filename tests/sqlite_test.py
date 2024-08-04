@@ -81,5 +81,11 @@ class SqliteStix(unittest.TestCase):
             if row['type']=="table":
                 if row['sql']: vn.train(ddl=row['sql'])
 
+        # how much training data?
+        # At any time you can inspect what training data the package is able to reference
+        training_data = vn.get_training_data()
+        print("Training data %d" % training_data.shape[0])
+
+
 if __name__ == '__main__':
     unittest.main()
