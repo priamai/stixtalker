@@ -1,0 +1,8 @@
+sql:
+ - question: "How many indicators are in total?"
+   sql: "SELECT COUNT(*) FROM indicator"
+ - question: "How many IOCs are available?"
+   sql: "SELECT COUNT(*) FROM indicator"
+
+documentation:
+ - text: "STIX 2.1 defines 18 STIX Domain Objects (SDOs): ...."
