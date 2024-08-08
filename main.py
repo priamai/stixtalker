@@ -18,9 +18,26 @@ group = parser.add_mutually_exclusive_group()
 group.add_argument("-v", "--verbose", action="store_true")
 group.add_argument("-q", "--quiet", action="store_true")
 parser.add_argument("-t","--train",action="store_true")
+parser.add_argument("-a","--query",help="Your query")
+parser.add_argument("-u","--dburl",help="Your query",default="train.sqlite")
+parser.add_argument("-p","--dbtype",help="Your database type",default="sqlite")
+
 args = parser.parse_args()
 
-if args.train:
+if args.query:
+    vn = StixVanna(config={'api_key': os.getenv("OPEN_AI"), 'model': 'gpt-4o'})
+    if args.dbtype == "sqlite":
+        vn.connect_to_sqlite(args.dburl)
+
+    # print the SQL statement
+    sql = vn.generate_sql(args.query)
+    print("Auto generated SQL")
+    print(sql)
+    print("Executing statement")
+    result = vn.run_sql(sql)
+    print(result)
+
+elif args.train:
     print("Training...")
 
     store = tmp_sql_storage("train.sqlite", "stix", clear=True)
@@ -59,7 +76,6 @@ if args.train:
             print("Bundle loaded...")
 
     vn = StixVanna(config={'api_key': os.getenv("OPEN_AI"), 'model': 'gpt-4o'})
-
 
     # load documentation
     import yaml
