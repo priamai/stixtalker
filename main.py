@@ -5,8 +5,9 @@ import os
 import ujson
 __import__('pysqlite3')
 import sys
-from helpers import tmp_sql_storage
+# patch sqlite3 to avoid binary issue
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+from helpers import tmp_sql_storage
 from firepit import BundleManager
 from dotenv import load_dotenv
 from dbagent import StixVanna
@@ -59,6 +60,19 @@ if args.train:
 
     vn = StixVanna(config={'api_key': os.getenv("OPEN_AI"), 'model': 'gpt-4o'})
 
+
+    # load documentation
+    import yaml
+    with open('./training/qa.yml') as f:
+        docs = yaml.safe_load(f)
+        for qa in docs['sql']:
+            vn.train(
+                question=qa['question'],
+                sql=qa['sql']
+            )
+        for doc in docs['documentation']:
+            vn.train(documentation=doc['text'])
+
     vn.connect_to_sqlite("train.sqlite")
 
     df_ddl = vn.run_sql("SELECT type, sql FROM sqlite_master WHERE sql is not null")
@@ -67,7 +81,9 @@ if args.train:
         vn.train(ddl=ddl)
 
     training_data = vn.get_training_data()
-    print("Total DDL statements: %d" % training_data.shape[0])
+    print("Total corpus: %d" % training_data.shape[0])
+
+
 
 
 

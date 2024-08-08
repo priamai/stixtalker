@@ -5,4 +5,30 @@ sql:
    sql: "SELECT COUNT(*) FROM indicator"
 
 documentation:
- - text: "STIX 2.1 defines 18 STIX Domain Objects (SDOs): ...."
+ - text: |
+    STIX 2.1 defines 18 STIX Domain Objects (SDOs).
+    The list contain SDO names and their tables:
+    Attack Pattern: attack-pattern
+    Campaign: campaign
+    Course of Action: course-of-action
+    Grouping: grouping
+    Identity: identity
+    Indicator: indicator
+    Infrastructure: infrastructure
+    Intrusion Set: intrusion-set
+    Location: location
+    Malware: malware
+    Malware Analysis: malware-analysis
+    Note: note
+    Observed Data: observed-data
+    Opinion: opinion
+    Report: report
+    Threat Actor: threat-actor
+    Tool: tool
+    Vulnerability: vulnerability
+ - text: |
+    STIX 2 defines two STIX Relationship Objects:
+    Relationship: relationship
+    Sighting: sighting
+  
+    
